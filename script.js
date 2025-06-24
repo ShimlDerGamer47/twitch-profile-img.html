@@ -4,6 +4,13 @@ document.addEventListener("DOMContentLoaded", function () {
   );
   const twitchAvatarImg = document.getElementById("twitchAvatarImgId");
 
+  const fontFamily = getComputedStyle(
+    document.documentElement
+  ).getPropertyValue("--font-family");
+  const backgroundColor = getComputedStyle(
+    document.documentElement
+  ).getPropertyValue("--background-color");
+
   const params = new URLSearchParams(window.location.search);
   const userName = params.get("userName");
 
@@ -37,4 +44,34 @@ document.addEventListener("DOMContentLoaded", function () {
     .catch((error) => {
       console.error("Fehler beim Laden des Twitch Profil-Bild:", error);
     });
+
+  const elementsArray = [twitchAvatarImgContainer, twitchAvatarImg];
+  const eventsArray = ["copy", "keydown", "dragstart", "select"];
+  const Styles = {
+    fontFamily: fontFamily,
+    background: backgroundColor,
+    width: "600px",
+    maxWidth: "600px",
+    height: "600px",
+    maxHeight: "600px",
+    objectFit: "contain",
+    display: "flex",
+    alignItems: "center",
+    alignContent: "center",
+    justifyItems: "center",
+    justifyContent: "center",
+    border: "none",
+    userSelect: "none",
+    cursor: "default",
+    pointerEvents: "none"
+  };
+
+  elementsArray.forEach((elements) => {
+    eventsArray.forEach((events) => {
+      elements.addEventListener(events, (e) => {
+        e.preventDefault();
+      });
+    });
+    Object.assign(elements.style, Styles);
+  });
 });
